@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3002");
+const socket = io("http://51.20.32.20:3002");
 
 socket.on("message", (msg, userName, groupId) => {
 	if (localStorage.getItem("currentGroupId")) {
@@ -71,7 +71,7 @@ async function createNewGroup(e) {
 
 		if (groupName) {
 			let token = localStorage.getItem("token");
-			let response = await axios.post("http://localhost:3002/groups", { groupName }, { headers: { authorization: token } });
+			let response = await axios.post("http://51.20.32.20:3002/groups", { groupName }, { headers: { authorization: token } });
 			showMessageDiv(response.data.msg);
 			displayGroupsLeft();
 		} else {
@@ -86,7 +86,7 @@ async function createNewGroup(e) {
 async function getAllGroups() {
 	try {
 		let token = localStorage.getItem("token");
-		let response = await axios.get("http://localhost:3002/groups", { headers: { authorization: token } });
+		let response = await axios.get("http://51.20.32.20:3002/groups", { headers: { authorization: token } });
 		return response.data;
 	} catch (error) {
 		console.log(error);
@@ -148,7 +148,7 @@ async function kickMembers(e) {
 
 		if (memberEmail) {
 			let token = localStorage.getItem("token");
-			let res = await axios.post("http://localhost:3002/groups/kickmembers", { memberEmail, groupid }, { headers: { authorization: token } });
+			let res = await axios.post("http://51.20.32.20:3002/groups/kickmembers", { memberEmail, groupid }, { headers: { authorization: token } });
 			showMessageDiv(res.data.msg);
 		} else {
 			console.log("no member");
@@ -165,7 +165,7 @@ async function deleteGroup(e) {
 		let groupid = e.target.parentElement.getAttribute("groupId");
 		let token = localStorage.getItem("token");
 
-		let res = await axios.delete(`http://localhost:3002/groups/deleteGroup/${groupid}`, { headers: { authorization: token } });
+		let res = await axios.delete(`http://51.20.32.20:3002/groups/deleteGroup/${groupid}`, { headers: { authorization: token } });
 		showMessageDiv(res.data.msg);
 		displayGroupsLeft();
 	} catch (error) {
@@ -181,7 +181,7 @@ async function changeAdmin(e) {
 		const memberEmail = prompt("Enter mail of person who you want to promote as admin");
 		if (memberEmail) {
 			let token = localStorage.getItem("token");
-			let res = await axios.patch("http://localhost:3002/groups/promoteAdmin", { memberEmail, groupid }, { headers: { authorization: token } });
+			let res = await axios.patch("http://51.20.32.20:3002/groups/promoteAdmin", { memberEmail, groupid }, { headers: { authorization: token } });
 			showMessageDiv(res.data.msg);
 			displayGroupsLeft();
 		} else {
@@ -200,7 +200,7 @@ async function addMembers(e) {
 		const memberEmail = prompt("Enter member email:");
 		if (memberEmail) {
 			let token = localStorage.getItem("token");
-			let res = await axios.post("http://localhost:3002/groups/addmembers", { memberEmail, groupid }, { headers: { authorization: token } });
+			let res = await axios.post("http://51.20.32.20:3002/groups/addmembers", { memberEmail, groupid }, { headers: { authorization: token } });
 
 			showMessageDiv(res.data.msg);
 		} else {
@@ -239,7 +239,7 @@ async function sendMsg(e) {
 
 
 
-			let response = await axios.post(`http://localhost:3002/upload/${groupId}`, formData, { headers: { authorization: token }, "Content-Type": "multipart/form-data" });
+			let response = await axios.post(`http://51.20.32.20:3002/upload/${groupId}`, formData, { headers: { authorization: token }, "Content-Type": "multipart/form-data" });
 			
 			
 			
@@ -250,7 +250,7 @@ async function sendMsg(e) {
 			document.querySelector("#inputText").value = "";
 			let token = localStorage.getItem("token");
 			let groupId = localStorage.getItem("currentGroupId");
-			let response = await axios.post("http://localhost:3002/chat", { message: msg, groupId: groupId }, { headers: { authorization: token } });
+			let response = await axios.post("http://51.20.32.20:3002/chat", { message: msg, groupId: groupId }, { headers: { authorization: token } });
 			socket.emit("message", msg, response.data.data, groupId);
 		}
 	} catch (error) {
@@ -263,7 +263,7 @@ async function loadChats() {
 		let token = localStorage.getItem("token");
 		let groupId = localStorage.getItem("currentGroupId");
 		
-		let prevChats = await axios.get(`http://localhost:3002/chat/${groupId}`, { headers: { authorization: token } });
+		let prevChats = await axios.get(`http://51.20.32.20:3002/chat/${groupId}`, { headers: { authorization: token } });
 		DisplayPrevChats(prevChats.data);
 	} catch (error) {
 		console.log(error);

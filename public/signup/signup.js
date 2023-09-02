@@ -22,7 +22,7 @@ async function formSubmit(e) {
 			password: document.querySelector("#passwordInput").value,
 		};
 
-		let response = await axios.post("http://localhost:3002/users/signup", obj);
+		let response = await axios.post("http://51.20.32.20:3002/users/signup", obj);
 		if (response) {
 			showMessageDiv(response.data.msg);
 			window.location.href = '/login'
